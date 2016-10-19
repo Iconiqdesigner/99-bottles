@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>That's a lot of beer&hellip;</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i" rel="stylesheet">
+<script type="text/javascript" src="bottles-of-beer.js"></script>
+<script type="text/javascript">
+function singDrinkingSong() {
+
+  //declare the necessary variables
+  var verses = []
+  var maxBottles = 99
+  var nextBottleNum = ( (i - 1) > 0 ) ? ( i - 1 ) : "no more"
+  var nextContainer = (i === 2) ? "bottle" : "bottles"
+  var curContainer = (i === 1) ? "bottle" : "bottles"
+  var currentVerse = ""
+
+  //run the loop to fill the array
+  for( var i = maxBottles; i > 0;   i-- ) {
+    //reset veriables based on i
+    nextBottleNum = ( (i - 1) > 0 ) ? ( i - 1 ) : "no more"
+    nextContainer = (i === 2) ? "bottle" : "bottles"
+    curContainer = (i === 1) ? "bottle" : "bottles"
+    currentVerse = i +  " " + curContainer + " of beer on the wall, " + i + " " + curContainer +  " of beer. Take one down and pass it around, " + nextBottleNum + " " + nextContainer + " of beer on the wall.";
+    verses.push(currentVerse);
+    //if we have gotten to the end of the song we have to go buy more beer
+    if ( i === 1 ) {
+      verses.push(nextBottleNum.charAt(0).toUpperCase() + nextBottleNum.slice(1) + " bottles of beer on the wall, " + nextBottleNum + " bottles of beer. Go to the store and buy some more, " + maxBottles + " bottles of beer on the wall.");
+    }
+  }
+
+  function singVerse(el) {
+    var verseContainer = document.getElementById('verse-container');
+    verseContainer.innerHTML += "<p>" + el + "</p>";
+  }
+
+  verses.forEach(singVerse);
+
+}
+
+function revealDrinkingSong() {
+  $("#verse-container p").each(function(index) {
+    $(this).delay(200*index).fadeIn(500);
+});
+}
+
+</script>
+<style type="text/css">
+  * {box-sizing: border-box;}
+  html { font-size: 62.5%;}
+  html, body { height: 100%; margin: 0; padding: 2rem 0; font-family: 'Merriweather', Georgia, serif; }
+  body {
+    background: PapayaWhip url("https://static1.squarespace.com/static/5624e74de4b0a1b15ad8766c/t/572739177c65e4858402df4b/1462188318681/") bottom center no-repeat;
+    background-size: cover;
+    background-blend-mode: overlay;
+    background-attachment: fixed;
+  }
+  button {
+    display: block;
+    border: 0;
+    width: 20rem;
+    background: chocolate;
+    color: white;
+    font-size: 2rem;
+    border-radius: .3rem;
+    box-shadow: 0 .5rem 0 #864313;
+    margin: 2rem auto;
+    line-height: 3.5rem;
+    position: relative;
+    top: 0;
+    font-family: 'Merriweather', Georgia, serif;
+    outline: none;
+  }
+
+  button:active {
+    box-shadow: none;
+    top: .5rem;
+  }
+
+  #verse-container {
+    width: 75%;
+    max-width: 98rem;
+    margin: 2.5rem auto;
+  }
+
+  #verse-container p {
+    font-style: italic;
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+    color: SaddleBrown;
+    quotes: "“" "”" "‘" "’";
+    display: none;
+  }
+
+  p::before {
+    content: open-quote;
+  }
+
+  p::after {
+    content: close-quote;
+  }
+</style>
+</head>
+
+<body onLoad="singDrinkingSong();">
+<button onclick="revealDrinkingSong();">SING ME A SONG</button>
+<div id="verse-container"></div>
+</body>
+</html>
